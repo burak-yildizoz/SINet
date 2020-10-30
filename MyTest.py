@@ -21,12 +21,14 @@ model = SINet_ResNet50().cuda()
 model.load_state_dict(torch.load(opt.model_path))
 model.eval()
 
-for dataset in ['COD10K']:
+#for dataset in ['COD10K']:
+for dataset in ['COD10K-v3/Test']:
     save_path = opt.test_save + dataset + '/'
     os.makedirs(save_path, exist_ok=True)
 
     test_loader = test_dataset('./Dataset/TestDataset/{}/Image/'.format(dataset),
-                               './Dataset/TestDataset/{}/GT/'.format(dataset), opt.testsize)
+                               #'./Dataset/TestDataset/{}/GT/'.format(dataset), opt.testsize)
+                               './Dataset/TestDataset/{}/GT_{}/'.format(dataset, 'Instance'), opt.testsize)
     img_count = 1
     for iteration in range(test_loader.size):
         image, gt, name = test_loader.load_data()

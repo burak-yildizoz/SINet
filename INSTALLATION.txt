@@ -1,0 +1,35 @@
+WINDOWS INSTALLATION
+
+Install Visual Studio C++ Desktop Development with C++/CLI support and VC++ 2015.3 v14.00 (v140) toolset for desktop
+Install Python 3.6.6
+
+If you do not plan to train the dataset, just run pip_install_cpu.bat
+
+Otherwise, install Cuda 11.0
+Then, install torch following the instructions from https://pytorch.org/get-started/locally/
+And install the other packages using the commands in pip_install_cpu.bat
+
+You need to install apex manually
+	git clone https://github.com/kezewang/apex --depth 1
+	cd apex/
+With CUDA:
+	pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+Without CUDA (cpu):
+	pip install -v --no-cache-dir --global-option="--cpp_ext" ./
+You may delete apex folder after successful installation
+
+
+DOWNLOADS
+
+Install dataset to ./Dataset/TestDataset/
+
+If you do not plan to train dataset:
+Dataset: CAMO + CHAMELEON + COD10K (only test)
+	https://drive.google.com/file/d/1QEGnP9O7HbN_2tH999O3HRIsErIVYalx/view
+Pretrained model: SINet_40.pth
+	https://drive.google.com/file/d/1iCkHXU55Or4gEtSqesijea6A5r8lVEYv/view
+	./Snapshot/2020-CVPR-SINet/SINet_40.pth
+
+Otherwise:
+Dataset: COD10K-v3 (full dataset)
+	https://drive.google.com/file/d/1vRYAie0JcNStcSwagmCq55eirGyMYGm5/view
