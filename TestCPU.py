@@ -21,7 +21,7 @@ model.load_state_dict(torch.load(opt.model_path, map_location=torch.device('cpu'
 model.eval()
 
 close = False
-for dataset in ['CAMO', 'CHAMELEON', 'COD10K']:
+for dataset in ['MYTEST', 'CAMO', 'CHAMELEON', 'COD10K']:
     if close:
         break
     save_path = opt.test_save + dataset + '/'
