@@ -5,24 +5,29 @@ import cv2 as cv
 result_root = './Result/2020-CVPR-SINet-New/'
 
 close = False
-for dataset in [ 'CHAMELEON', 'COD10K', 'CAMO','MYTEST']:
+for dataset in [ 'MYTEST', 'CHAMELEON', 'COD10K', 'CAMO', 'COD10K-v3' ]:
     if close:
         break
     result_path = result_root + dataset + '/'
     images = [f for f in os.listdir(result_path) if f.endswith('.png')]
     orig_path = './Dataset/TestDataset/' + dataset + '/Imgs/'
     gt_path = './Dataset/TestDataset/' + dataset + '/GT/'
+    if dataset is 'COD10K-v3':
+        images = [f for f in images if 'Deer' in f]
+        orig_path = orig_path.replace('/Imgs/', '/Test/Image/')
+        gt_path = gt_path.replace('/GT/', '/Test/GT_Object/')
 
     img_count = 1
     for file in images:
-        mask = cv.imread(result_path + file, cv.IMREAD_GRAYSCALE)
+        file = file.replace('.png', '')
+
+        mask = cv.imread(result_path + file + '.png', cv.IMREAD_GRAYSCALE)
         mask = np.where(mask > 0, 255, 0)
 
-        gt = cv.imread(gt_path + file, cv.IMREAD_GRAYSCALE)
+        gt = cv.imread(gt_path + file + '.png', cv.IMREAD_GRAYSCALE)
         gt = np.where(gt > 0, 255, 0)
 
-        file = file.replace('.png', '.jpg')
-        orig = cv.imread(orig_path + file, cv.IMREAD_COLOR)
+        orig = cv.imread(orig_path + file + '.jpg', cv.IMREAD_COLOR)
 
         # dice index for scoring
         tp = cv.countNonZero(cv.bitwise_and(gt, mask))
@@ -49,4 +54,9 @@ for dataset in [ 'CHAMELEON', 'COD10K', 'CAMO','MYTEST']:
         if ch is 27:    # ESC is pressed
             close = True
             break
+        if chr(ch).lower() == 's':
+            cv.imwrite('./Result/' + file + '_original.jpg', orig)
+            cv.imwrite('./Result/' + file + '_object.jpg', obj)
+            cv.imwrite('./Result/' + file + '_detected.jpg', res)
+            print('Wrote out results for ' + file, flush=True)
         img_count += 1
