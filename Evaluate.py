@@ -42,6 +42,9 @@ for dataset in [ 'MYTEST', 'CHAMELEON', 'COD10K', 'CAMO', 'COD10K-v3' ]:
         cam_locs = np.where(mask != 0)
         res = orig // 3
         res[cam_locs[0], cam_locs[1]] = orig[cam_locs[0], cam_locs[1]]
+        mark = np.copy(res)
+        _, contours, hierarchy = cv.findContours(gt.astype(np.uint8), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+        cv.drawContours(mark, contours, -1, (0,255,0), 3, cv.LINE_AA, hierarchy)
 
         print('({}/{}) Dice: {:4.1f}%, Image: {}/{}'.format(
             img_count, len(images), 100 * dice, dataset, file),
@@ -50,6 +53,7 @@ for dataset in [ 'MYTEST', 'CHAMELEON', 'COD10K', 'CAMO', 'COD10K-v3' ]:
         cv.imshow('original', orig)
         cv.imshow('object', obj)
         cv.imshow('detected', res)
+        cv.imshow('marked', mark)
         ch = cv.waitKey() & 0xFF
         if ch is 27:    # ESC is pressed
             close = True
@@ -58,5 +62,8 @@ for dataset in [ 'MYTEST', 'CHAMELEON', 'COD10K', 'CAMO', 'COD10K-v3' ]:
             cv.imwrite('./Result/' + file + '_original.jpg', orig)
             cv.imwrite('./Result/' + file + '_object.jpg', obj)
             cv.imwrite('./Result/' + file + '_detected.jpg', res)
+            cv.imwrite('./Result/' + file + '_marked.jpg', mark)
             print('Wrote out results for ' + file, flush=True)
         img_count += 1
+
+cv.destroyAllWindows()
