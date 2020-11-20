@@ -36,7 +36,7 @@ for dataset in ['COD10K']:
     #  you just modify the params (i.e., `image_root=your_test_img_path` and `gt_root=your_test_img_path`)
     #  with the same filepath. We recover the original size according to the shape of grouth-truth, and thus,
     #  the grouth-truth map is unnecessary actually.
-    test_loader = test_dataset(image_root=imge_root.format(dataset),
+    test_loader = test_dataset(image_root=image_root.format(dataset),
                                gt_root=gt_root.format(dataset),
                                testsize=opt.testsize)
     img_count = 1
