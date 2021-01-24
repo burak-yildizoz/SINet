@@ -8,7 +8,11 @@
 > [Jianbing Shen](http://iitlab.bit.edu.cn/mcislab/~shenjianbing), 
 > [Ling Shao](http://www.inceptioniai.org/).
 
+
 ## 0. Preface
+
+- Welcome to joint the COD community! We create a group chat in WeChat, you can join it via adding contact 
+(WeChat ID: CVer222). Please attach your affiliations.
 
 - This repository includes detailed introduction, strong baseline 
 (Search & Identification Net, SINet), and one-key evaluation codes for 
@@ -25,7 +29,8 @@ or [Ge-Peng Ji](gepengai.ji@gmail.com) via E-mail. And if you are using SINet or
 please cite this paper ([BibTeX](http://dpfan.net/wp-content/uploads/Camouflage.txt)) 
 
 ### 0.1. :fire: NEWS :fire:
-- [2020/10/22] Training code could be avaliable via email (dengpfan@gmail.com). Please provide your Name & Institution. Please note the code can be only used for research purpose.
+- [2020/10/22] :boom: Training code could be avaliable via email (dengpfan@gmail.com). Please provide your Name & Institution. Please note the code can be only used for research purpose.
+- [2020/11/21] Upadted evaluated tool: Bi_cam(cam>threshold)=1 -> Bi_cam(cam>=threshold)=1;
 - [2020/10/22] For eq (4): j = k+1, M -> j = m, k-1. (note that m is a specific layer, in our paper it should be equal to 1).
 - [2020/09/09] SINet is the best method on the open benchmark website (https://paperswithcode.com/task/camouflaged-object-segmentation).
 - [2020/08/27] Updated the describtion in Table 3 (Baseline models are trained using the training setting (iii) rather than (iv)). 
@@ -105,12 +110,13 @@ please cite this paper ([BibTeX](http://dpfan.net/wp-content/uploads/Camouflage.
 ## 1. Task Relationship
 
 <p align="center">
-    <img src="http://dpfan.net/wp-content/uploads/TaskRelationship.png"/> <br />
+    <img src="./Images/Relationship.png"/> <br />
     <em> 
-    Figure 1: Task relationship. One of the most popular directions in computer vision is generic object detection. 
-    Note that generic objects can be either salient or camouflaged; camouflaged objects can be seen as difficult cases of 
-    generic objects. Typical generic object detection tasks include semantic segmentation and panoptic 
-    segmentation (see Fig. 2 b).
+    Figure 1: Task relationship. Given an input image (a), we present the ground-truth for (b) panoptic segmentation
+    (which detects generic objects including stuff and things), (c) salient object detection (which detects isolated 
+    objects that grasp human attention), and (d) the proposed concealed object detection task, where the goal is to 
+    detect objects that have a similar pattern to the natural habitat. In this example, the boundaries of the two 
+    butterflies are blended with the bananas, making them difficult to identify..
     </em>
 </p>
 
@@ -280,7 +286,9 @@ a single GeForce RTX TITAN GPU of 24 GB Memory.
 ## 5. Evaluation Toolbox
 
 We provide complete and fair one-key evaluation toolbox for benchmarking within a uniform standard. 
-Please refer to this link for more information: https://github.com/DengPingFan/CODToolbox
+Please refer to this link for more information:
+Matlab version: https://github.com/DengPingFan/CODToolbox
+Python version: https://github.com/lartpang/PySODMetrics
 
 ## 6. Potential Applications
 
@@ -376,11 +384,13 @@ If you want to use for commercial please contact me.
 Redistribution and use in source with or without
 modification, are permitted provided that the following conditions are
 met:
-		* Redistributions of source code must retain the above copyright
-  		  notice, this list of conditions and the following disclaimer.
-		* Redistributions in binary form must reproduce the above copyright
-  		  notice, this list of conditions and the following disclaimer in
-  		  the documentation and/or other materials provided with the distribution
+
+* Redistributions of source code must retain the above copyright
+  notice, this list of conditions and the following disclaimer.
+  
+* Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in
+  the documentation and/or other materials provided with the distribution
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
