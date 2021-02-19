@@ -14,6 +14,7 @@ parser.add_argument('--model_path', type=str,
                     default='./Snapshot/2020-CVPR-SINet/SINet_40.pth')
 parser.add_argument('--test_save', type=str,
                     default='./Result/2020-CVPR-SINet-New/')
+parser.add_argument('--save_all', type=bool, default=True)
 opt = parser.parse_args()
 
 model = SINet_ResNet50().cpu()
@@ -21,14 +22,19 @@ model.load_state_dict(torch.load(opt.model_path, map_location=torch.device('cpu'
 model.eval()
 
 close = False
-for dataset in ['MYTEST', 'CAMO', 'CHAMELEON', 'COD10K']:
+for dataset in ['COD10K-v3', 'MYTEST', 'CAMO', 'CHAMELEON', 'COD10K']:
     if close:
         break
     save_path = opt.test_save + dataset + '/'
     os.makedirs(save_path, exist_ok=True)
 
-    test_loader = test_dataset('./Dataset/TestDataset/{}/Imgs/'.format(dataset),
-                               './Dataset/TestDataset/{}/GT/'.format(dataset), opt.testsize)
+    imgpath = './Dataset/TestDataset/{}/Imgs/'.format(dataset)
+    gtpath = './Dataset/TestDataset/{}/GT/'.format(dataset)
+    if dataset == 'COD10K-v3':
+        imgpath = './Dataset/TestDataset/{}/Image/'.format(dataset)
+        gtpath = './Dataset/TestDataset/{}/GT_Instance/'.format(dataset)
+    test_loader = test_dataset(imgpath, gtpath, opt.testsize)
+
     img_count = 1
     for iteration in range(test_loader.size):
         start_time = time.time()
@@ -74,13 +80,14 @@ for dataset in ['MYTEST', 'CAMO', 'CHAMELEON', 'COD10K']:
             img_count, test_loader.size, 100 * dice, 1000 * duration, dataset, name),
             flush=True)
 
-        cv.imshow('original', img)
-        cv.imshow('object', obj)
-        cv.imshow('detected', res)
-        ch = cv.waitKey() & 0xFF
-        if ch is 27:    # ESC is pressed
-            close = True
-            break
+        ch = ord('s')
+        if not opt.save_all:
+            #cv.imshow('original', img)
+            #cv.imshow('object', obj)
+            cv.imshow('detected', res)
+            ch = cv.waitKey() & 0xFF
+            if ch is 27:    # ESC is pressed
+                break
         if chr(ch).lower() == 's':
             res = cv.imwrite(save_path + name, cam)
             if res:
